@@ -1,0 +1,6 @@
+@EduWork.WebApi_HostAddress = http://localhost:5277
+
+GET {{EduWork.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
