@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EduWork.Data\EduWork.Data.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -5,6 +5,10 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduWork.WebApi", "EduWork.WebApi\EduWork.WebApi.csproj", "{CF87290A-1A4C-4C46-9DED-1A3578251DEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduWork.Data", "EduWork.Data\EduWork.Data.csproj", "{7830A787-4FD3-44B8-A244-9EF22F58D697}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduWork.BusinessLogic", "EduWork.BusinessLogic\EduWork.BusinessLogic.csproj", "{B67C7DDF-4A88-4D27-BF18-64AC416A28D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{CF87290A-1A4C-4C46-9DED-1A3578251DEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF87290A-1A4C-4C46-9DED-1A3578251DEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF87290A-1A4C-4C46-9DED-1A3578251DEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7830A787-4FD3-44B8-A244-9EF22F58D697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7830A787-4FD3-44B8-A244-9EF22F58D697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7830A787-4FD3-44B8-A244-9EF22F58D697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7830A787-4FD3-44B8-A244-9EF22F58D697}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B67C7DDF-4A88-4D27-BF18-64AC416A28D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B67C7DDF-4A88-4D27-BF18-64AC416A28D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B67C7DDF-4A88-4D27-BF18-64AC416A28D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B67C7DDF-4A88-4D27-BF18-64AC416A28D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
