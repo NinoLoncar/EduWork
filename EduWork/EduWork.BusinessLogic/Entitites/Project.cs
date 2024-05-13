@@ -14,7 +14,7 @@ namespace EduWork.Domain.Entitites
         public string Name { get; set; }
 
         [Required]
-        public int ProjectCategoryId { get; set; }
+        public Guid ProjectCategoryId { get; set; }
 
         public ProjectCategory ProjectCategory { get; set; }
 
