@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EduWork.BusinessLogic.Entitites
+namespace EduWork.Domain.Entitites
 {
     [Table("Roles")]
     public class Role
@@ -13,6 +13,6 @@ namespace EduWork.BusinessLogic.Entitites
         [Required]
         public string Name { get; set; }
 
-        public ICollection<User> Users { get; set;}
+        public ICollection<User> Users { get; set; }
     }
 }

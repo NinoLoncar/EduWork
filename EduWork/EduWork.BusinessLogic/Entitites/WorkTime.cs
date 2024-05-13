@@ -1,10 +1,8 @@
-﻿
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EduWork.BusinessLogic.Entitites
+namespace EduWork.Domain.Entitites
 {
     [Table("WorkTimes")]
     [Index(nameof(Date))]
@@ -24,7 +22,7 @@ namespace EduWork.BusinessLogic.Entitites
         public TimeOnly StartTime { get; set; }
 
         [Required]
-        public TimeOnly EndTime { get; set;}
+        public TimeOnly EndTime { get; set; }
 
         public User User { get; set; }
     }

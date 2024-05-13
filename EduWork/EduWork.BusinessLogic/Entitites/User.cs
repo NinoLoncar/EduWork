@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EduWork.BusinessLogic.Entitites
+namespace EduWork.Domain.Entitites
 
 
 {
-    [Table ("Users") ]
+    [Table("Users")]
     public class User
     {
         [Key]
