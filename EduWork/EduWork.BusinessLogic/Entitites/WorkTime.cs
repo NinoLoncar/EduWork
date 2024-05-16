@@ -10,6 +10,7 @@ namespace EduWork.Domain.Entitites
     public class WorkTime
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
 
         [Required]
