@@ -1,4 +1,5 @@
 using EduWork.Data;
+using EduWork.WebApi.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
- 
+
+var swaggerAdConfiguration = new SwaggerAuthorizationConfiguration();
+builder.Configuration.GetSection(SwaggerAuthorizationConfiguration.Section).Bind(swaggerAdConfiguration);
+builder.Services.Configure<SwaggerAuthorizationConfiguration>(builder.Configuration.GetSection(SwaggerAuthorizationConfiguration.Section));
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "EduWork", Version = "v1" });
@@ -29,11 +34,11 @@ builder.Services.AddSwaggerGen(c =>
             {
                 AuthorizationCode = new OpenApiOAuthFlow
                 {
-                    TokenUrl = new Uri(builder.Configuration["SwaggerAd:TokenUrl"]),
-                    AuthorizationUrl = new Uri(builder.Configuration["SwaggerAd:AuthorizationUrl"]),
+                    TokenUrl = new Uri(swaggerAdConfiguration.TokenUrl),
+                    AuthorizationUrl = new Uri(swaggerAdConfiguration.AuthorizationUrl),
                     Scopes = new Dictionary<string, string>
                     {
-                    { builder.Configuration["SwaggerAd:Scope"], "Access API as User" }
+                    { swaggerAdConfiguration.Scope , "Access API as User" }
                     }
                 },
             },
@@ -48,7 +53,7 @@ builder.Services.AddSwaggerGen(c =>
             {
                 Reference = new OpenApiReference{Type=ReferenceType.SecurityScheme,Id="OAuth2"}
             },
-            new[]{builder.Configuration["SwaggerAd:Scope"]
+            new[]{swaggerAdConfiguration.Scope
             }
         }
     });
@@ -69,7 +74,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.OAuthClientId(builder.Configuration["SwaggerAd:ClientId"]);
+        c.OAuthClientId(swaggerAdConfiguration.ClientId);
         c.OAuthUsePkce();
         c.OAuthScopeSeparator(" ");
     });
