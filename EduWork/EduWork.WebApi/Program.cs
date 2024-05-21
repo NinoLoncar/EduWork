@@ -1,8 +1,10 @@
 using EduWork.Data;
+using EduWork.WebApi;
 using EduWork.WebApi.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
@@ -21,50 +23,10 @@ var swaggerAdConfiguration = new SwaggerAuthorizationConfiguration();
 builder.Configuration.GetSection(SwaggerAuthorizationConfiguration.Section).Bind(swaggerAdConfiguration);
 builder.Services.Configure<SwaggerAuthorizationConfiguration>(builder.Configuration.GetSection(SwaggerAuthorizationConfiguration.Section));
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "EduWork", Version = "v1" });
-    c.AddSecurityDefinition(
-        "OAuth2",
-        new OpenApiSecurityScheme
-        {
 
-            Type = SecuritySchemeType.OAuth2,
-            Flows = new OpenApiOAuthFlows
-            {
-                AuthorizationCode = new OpenApiOAuthFlow
-                {
-                    TokenUrl = new Uri(swaggerAdConfiguration.TokenUrl),
-                    AuthorizationUrl = new Uri(swaggerAdConfiguration.AuthorizationUrl),
-                    Scopes = new Dictionary<string, string>
-                    {
-                    { swaggerAdConfiguration.Scope , "Access API as User" }
-                    }
-                },
-            },
+builder.Services.AddConfiguredSwagger(swaggerAdConfiguration);
 
-        }
-
-       );
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference{Type=ReferenceType.SecurityScheme,Id="OAuth2"}
-            },
-            new[]{swaggerAdConfiguration.Scope
-            }
-        }
-    });
-});
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
-
-
+builder.Services.AddDatabase(builder.Configuration);
 
 var app = builder.Build();
 
