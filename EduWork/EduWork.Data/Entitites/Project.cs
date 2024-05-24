@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EduWork.Domain.Entitites
+namespace EduWork.Data.Entitites
 {
     [Table("Projects")]
     public class Project

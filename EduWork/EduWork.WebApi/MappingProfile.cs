@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EduWork.Common.DTOs;
-using EduWork.Domain.Entitites;
+using EduWork.Data.Entitites;
 
 namespace EduWork.WebApi
 {

@@ -1,4 +1,4 @@
-﻿using EduWork.Domain.Entitites;
+﻿using EduWork.Data.Entitites;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
