@@ -19,6 +19,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
+
 var swaggerAdConfiguration = new SwaggerAuthorizationConfiguration();
 builder.Configuration.GetSection(SwaggerAuthorizationConfiguration.Section).Bind(swaggerAdConfiguration);
 builder.Services.Configure<SwaggerAuthorizationConfiguration>(builder.Configuration.GetSection(SwaggerAuthorizationConfiguration.Section));
