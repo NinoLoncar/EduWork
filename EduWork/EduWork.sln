@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduWork.Domain", "EduWork.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduWork.UI", "EduWork.UI\EduWork.UI.csproj", "{A55F85C7-31D4-42C4-BDA7-1480D938AC55}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduWork.Common", "EduWork.Common\EduWork.Common.csproj", "{B61974BF-98BC-484C-A25F-E8D9047C8CF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A55F85C7-31D4-42C4-BDA7-1480D938AC55}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A55F85C7-31D4-42C4-BDA7-1480D938AC55}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A55F85C7-31D4-42C4-BDA7-1480D938AC55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B61974BF-98BC-484C-A25F-E8D9047C8CF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B61974BF-98BC-484C-A25F-E8D9047C8CF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B61974BF-98BC-484C-A25F-E8D9047C8CF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B61974BF-98BC-484C-A25F-E8D9047C8CF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
