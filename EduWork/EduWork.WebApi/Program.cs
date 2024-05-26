@@ -31,6 +31,17 @@ builder.Services.AddConfiguredSwagger(swaggerAdConfiguration);
 
 builder.Services.AddDatabase(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazorClient", builder =>
+    {
+        builder.WithOrigins("https://localhost:7110", "http://localhost:5143")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,6 +63,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("AllowBlazorClient");
+
 
 using (var scope = app.Services.CreateScope())
 {
