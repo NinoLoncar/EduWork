@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EduWork.Data;
-using EduWork.Domain.Entitites;
 using Microsoft.Identity.Web.Resource;
 using Microsoft.AspNetCore.Authorization;
+using AutoMapper;
+using EduWork.Common.DTOs;
+using EduWork.Data.Entitites;
+using System.Security.Claims;
 
 namespace EduWork.WebApi.Controllers
 {
@@ -19,17 +22,37 @@ namespace EduWork.WebApi.Controllers
     public class WorkTimesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public WorkTimesController(ApplicationDbContext context)
+        public WorkTimesController(ApplicationDbContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // GET: api/WorkTimes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkTime>>> GetWorkTimes()
+        public async Task<ActionResult<IEnumerable<WorkTimeDTO>>> GetWorkTimes()
         {
-            return await _context.WorkTimes.ToListAsync();
+            var email = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == "preferred_username")?.Value;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return Unauthorized("Email is missing.");
+            }
+
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+
+            }
+            var workTimes = await _context.WorkTimes.Where(w=>w.UserId==user.Id).ToListAsync();
+            var workTimesDto = _mapper.Map<IEnumerable<WorkTimeDTO>>(workTimes);
+            return Ok(workTimesDto);
         }
 
         // GET: api/WorkTimes/5
