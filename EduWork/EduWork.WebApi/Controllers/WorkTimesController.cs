@@ -50,7 +50,7 @@ namespace EduWork.WebApi.Controllers
                 return NotFound("User not found.");
 
             }
-            var workTimes = await _context.WorkTimes.Where(w=>w.UserId==user.Id).ToListAsync();
+            var workTimes = await _context.WorkTimes.Where(w=>w.UserId==user.Id ).OrderBy(w=>w.EndTime).ToListAsync();
             var workTimesDto = _mapper.Map<IEnumerable<WorkTimeDTO>>(workTimes);
             return Ok(workTimesDto);
         }

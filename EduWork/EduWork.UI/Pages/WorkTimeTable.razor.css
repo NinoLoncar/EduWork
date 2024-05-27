@@ -1,0 +1,16 @@
+﻿
+table {
+    width: 50%;
+    border: solid;
+    border-color: #08143b;
+}
+
+thead{
+    background-color:#08143b;
+    color:white;
+}
+#div {
+    display: flex;
+    justify-content: center;
+    text-align:center;
+}

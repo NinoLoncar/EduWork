@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduWork.Data", "EduWork.Dat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduWork.Domain", "EduWork.BusinessLogic\EduWork.Domain.csproj", "{B67C7DDF-4A88-4D27-BF18-64AC416A28D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduWork.UI", "EduWork.UI\EduWork.UI.csproj", "{A55F85C7-31D4-42C4-BDA7-1480D938AC55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduWork.UI", "EduWork.UI\EduWork.UI.csproj", "{A55F85C7-31D4-42C4-BDA7-1480D938AC55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduWork.Common", "EduWork.Common\EduWork.Common.csproj", "{B61974BF-98BC-484C-A25F-E8D9047C8CF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EduWork.Common", "EduWork.Common\EduWork.Common.csproj", "{B61974BF-98BC-484C-A25F-E8D9047C8CF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
