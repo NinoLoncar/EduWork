@@ -55,6 +55,35 @@ namespace EduWork.WebApi.Controllers
             return Ok(workTimesDto);
         }
 
+        // POST: api/WorkTimes
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<WorkTime>> PostWorkTime(WorkTimeDTO workTimeDto)
+        {
+
+            var email = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == "preferred_username")?.Value;
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return Unauthorized("Email is missing.");
+            }
+
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+            {
+                return NotFound("User not found.");
+
+            }
+
+            var workTime = _mapper.Map<WorkTime>(workTimeDto);
+            workTime.UserId = user.Id;
+            _context.WorkTimes.Add(workTime);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction("GetWorkTime", new { id = workTime.Id }, workTime);
+        }
+
+
         // GET: api/WorkTimes/5
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkTime>> GetWorkTime(Guid id)
@@ -100,16 +129,7 @@ namespace EduWork.WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/WorkTimes
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<WorkTime>> PostWorkTime(WorkTime workTime)
-        {
-            _context.WorkTimes.Add(workTime);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWorkTime", new { id = workTime.Id }, workTime);
-        }
 
         // DELETE: api/WorkTimes/5
         [HttpDelete("{id}")]

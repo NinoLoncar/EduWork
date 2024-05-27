@@ -2,6 +2,7 @@
 using EduWork.WebApi.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace EduWork.WebApi
 {
@@ -12,6 +13,29 @@ namespace EduWork.WebApi
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            });
+            return services;
+        }
+        public static IServiceCollection AddConfiguredControllers(this IServiceCollection services)
+        {
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.WriteIndented = true;
+            });
+            return services;
+        }
+        public static IServiceCollection AddConfiguredCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowBlazorClient", builder =>
+                {
+                    builder.WithOrigins("https://localhost:7110", "http://localhost:5143")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
+                });
             });
             return services;
         }
