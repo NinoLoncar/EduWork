@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using EduWork.Common.DTOs
+
+@inject IAccessTokenProvider TokenProvider
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient Http
+
+<InputDate Type="InputDateType.Time" id="test" @bind-Value="@workTime.StartTime" @oninput="CheckStartTime" @onfocusout="CheckStartTime" />
+=>
+<InputDate Type="InputDateType.Time" class="time-input" @bind-Value="@workTime.EndTime" @oninput="CompareStartTimeAndEndTime" @onfocusout="CompareStartTimeAndEndTime" />
+<button disabled="@buttonIsDisabled" @onclick="PostWorkTime">Save</button>
+
+@code {
+
+    private bool buttonIsDisabled = false;
+
+    [Parameter]
+    public EventCallback WorkTimeAddedEvent { get; set; }
+
+    WorkTimeDTO workTime = new WorkTimeDTO
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now),
+            StartTime = TimeOnly.FromDateTime(DateTime.Now),
+            EndTime = TimeOnly.FromDateTime(DateTime.Now).AddMinutes(1)
+    };
+    TimeOnly timeOnly = TimeOnly.FromDateTime(DateTime.Now);
+
+    public async Task PostWorkTime()
+    {
+        var tokenResult = await TokenProvider.RequestAccessToken();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        if (tokenResult.TryGetToken(out var token))
+        {
+            Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Value);
+            await Http.PostAsJsonAsync("api/WorkTimes", workTime);
+            await WorkTimeAddedEvent.InvokeAsync();
+        }
+    }
+
+    private async Task ActivateWorkTimeAddedEvent()
+    {
+        await WorkTimeAddedEvent.InvokeAsync();
+    }
+    private void CompareStartTimeAndEndTime()
+    {
+        if (workTime.StartTime >= workTime.EndTime)
+        {
+            workTime.EndTime = workTime.StartTime.AddMinutes(1);
+        }
+    }
+    private void CheckStartTime(EventArgs e)
+    {
+        if (workTime.StartTime > TimeOnly.FromDateTime(DateTime.Now))
+        {
+            workTime.StartTime = TimeOnly.FromDateTime(DateTime.Now);
+        }
+        CompareStartTimeAndEndTime();
+    }
+
+}

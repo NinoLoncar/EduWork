@@ -4,9 +4,22 @@
 
 @attribute [Authorize]
 
-<WorkTimeTable/>
+<div id="work-time-input">
 
+<WorkTimeInput WorkTimeAddedEvent="HandleWorkTimeAddedEvent" />
+
+</div>
+
+<div id ="work-time-table">
+	<WorkTimeTable  @ref=workTimeTable/>
+</div>
 @code {
 
+	private WorkTimeTable workTimeTable;
+
+	private async Task HandleWorkTimeAddedEvent()
+	{
+		await workTimeTable.ShowTableData();
+	}
 
 }
