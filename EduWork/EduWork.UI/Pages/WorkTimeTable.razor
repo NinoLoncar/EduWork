@@ -7,48 +7,66 @@
 
 <div id="div">
 
-
-<table class="table">
-	<thead class="thead-light">
-		<tr>
-			<th>
-				@currentDate
-			</th>
-			<th>
-					@timeSum.ToString(@"hh\:mm\:ss")
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@if (workTimes != null)
-		{
-			foreach (var workTime in workTimes)
-			{
+	@if (isLoading == true)
+	{
+		<div class="loader"></div>
+	}
+	else
+	{
+		<table class="table">
+			<thead class="thead-light">
 				<tr>
-					<td>
-							@workTime.StartTime.ToString(@"HH\:mm") &nbsp;&nbsp;&nbsp; => &nbsp;&nbsp;&nbsp; @workTime.EndTime.ToString(@"HH\:mm")
-					</td>
-					<td>
-							@((workTime.EndTime - workTime.StartTime).ToString(@"hh\:mm\:ss"))
-					</td>
+					<th>
+						@currentDate
+					</th>
+					<th>
+						@timeSum.ToString(@"hh\:mm\:ss")
+					</th>
 				</tr>
-			}
-		}
-	</tbody>
-</table>
+			</thead>
+			<tbody>
+				@if (workTimes != null)
+				{
+					foreach (var workTime in workTimes)
+					{
+						<tr>
+							<td>
+								@workTime.StartTime.ToString(@"HH\:mm") &nbsp;&nbsp;&nbsp; => &nbsp;&nbsp;&nbsp; @workTime.EndTime.ToString(@"HH\:mm")
+							</td>
+							<td>
+								@((workTime.EndTime - workTime.StartTime).ToString(@"hh\:mm\:ss"))
+							</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	}
+
 </div>
 
 @code {
 	private WorkTimeDTO[]? workTimes;
 	private DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
 	private TimeSpan timeSum = new TimeSpan(0,0,0);
+	private bool isLoading = false;
+
 	protected override async Task OnInitializedAsync()
 	{
-		await GetWorkTimes();
-		CalculateTimeSum();
+		await ShowTableData();
 	}
 
-	public async Task GetWorkTimes()
+	public async Task ShowTableData()
+	{
+		isLoading = true;
+		StateHasChanged();
+		await GetWorkTimes();
+		CalculateTimeSum();
+		isLoading = false;
+		StateHasChanged();
+	}
+
+	private async Task GetWorkTimes()
 	{
 		var tokenResult = await TokenProvider.RequestAccessToken();
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
