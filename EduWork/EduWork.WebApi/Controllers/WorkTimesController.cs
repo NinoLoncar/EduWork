@@ -34,9 +34,10 @@ namespace EduWork.WebApi.Controllers
 
         // GET: api/WorkTimes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<WorkTimeDTO>>> GetWorkTimes()
+        public async Task<ActionResult<IEnumerable<WorkTimeDTO>>> GetWorkTimes([FromQuery] DateOnly? date)
         {
-            var email = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == "preferred_username")?.Value;
+
+			var email = _httpContextAccessor.HttpContext.User.FindFirst(c => c.Type == "preferred_username")?.Value;
 
             if (string.IsNullOrEmpty(email))
             {
@@ -50,7 +51,18 @@ namespace EduWork.WebApi.Controllers
                 return NotFound("User not found.");
 
             }
-            var workTimes = await _context.WorkTimes.Where(w=>w.UserId==user.Id ).OrderBy(w=>w.EndTime).ToListAsync();
+
+            List<WorkTime> workTimes;
+
+			if (date!=null)
+            {
+				workTimes = await _context.WorkTimes.Where(w => w.UserId == user.Id && w.Date==date.Value).OrderBy(w => w.EndTime).ToListAsync();
+			}
+            else
+            {
+			     workTimes = await _context.WorkTimes.Where(w => w.UserId == user.Id).OrderBy(w => w.EndTime).ToListAsync();
+			}
+
             var workTimesDto = _mapper.Map<IEnumerable<WorkTimeDTO>>(workTimes);
             return Ok(workTimesDto);
         }

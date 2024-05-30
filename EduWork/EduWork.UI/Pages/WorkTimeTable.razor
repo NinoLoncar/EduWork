@@ -59,7 +59,6 @@
 	public async Task ShowTableData()
 	{
 		isLoading = true;
-		StateHasChanged();
 		await GetWorkTimes();
 		CalculateTimeSum();
 		isLoading = false;
@@ -73,9 +72,9 @@
 
 		if (tokenResult.TryGetToken(out var token))
 		{
-
 			Http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token.Value);
-			workTimes = await Http.GetFromJsonAsync<WorkTimeDTO[]>("api/WorkTimes");
+			string url = $"api/WorkTimes?date={currentDate:yyyy-MM-dd}";
+			workTimes = await Http.GetFromJsonAsync<WorkTimeDTO[]>(url);
 		}
 	}
 	private void CalculateTimeSum()
